@@ -834,9 +834,20 @@ install_main() {
         ${apt_get} upgrade
         ${apt_get} ${allow_downgrades} install mopidy mopidy-mpd mopidy-local mopidy-spotify
         ${apt_get} ${allow_downgrades} install libspotify12 python3-cffi python3-ply python3-pycparser python3-spotify
-
+        
         # Install necessary Python packages
         sudo python3 -m pip install --upgrade --force-reinstall -q -r "${jukebox_dir}"/requirements-spotify.txt
+        
+        #Spotify Playlist BugFix
+        sudo rm -rf /usr/lib/python2.7/dist-packages/mopidy_spotify*
+        sudo rm -rf /usr/lib/python2.7/dist-packages/Mopidy_Spotify-*
+        cd ${HOME_DIR}
+        sudo rm -rf mopidy-spotify
+        sudo apt-get install git
+        git clone -b fix/web_api_playlists --single-branch https://github.com/princemaxwell/mopidy-spotify.git
+        cd ${HOME_DIR}/mopidy-spotify
+        sudo python setup.py install
+        cd ${HOME_DIR}
     fi
 
     # Install more required packages
