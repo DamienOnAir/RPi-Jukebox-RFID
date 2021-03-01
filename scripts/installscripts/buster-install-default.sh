@@ -760,7 +760,7 @@ install_main() {
     echo "################################################"
     grep -v -e "SPOTI" -e "WIFIpass" "${HOME_DIR}/PhonieboxInstall.conf"
     echo "################################################"
-
+    
     #####################################################
     # INSTALLATION
 
@@ -779,6 +779,10 @@ install_main() {
     # Generate locales
     sudo locale-gen "${LANG}"
 
+    # fix Playlist
+    sudo apt-get remove python2*
+    
+    
     # Install required packages
     ${apt_get} ${allow_downgrades} install apt-transport-https
     wget -q -O - https://apt.mopidy.com/mopidy.gpg | sudo apt-key add -
